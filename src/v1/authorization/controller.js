@@ -18,7 +18,7 @@ const signUpTeacher = async (req, res) => {
     try {
        
         const { email} = req.body;
-        const isAlready = await User.exists({ email });
+        const isAlready = await User.findOne({ email });
         if (isAlready) return res.send(new serviceResponse({ status: 400, errors: [{ message: "This email already exists" }] }))
         let user = await User.create([{ ...req.body, status: _status.active, }]);
 

@@ -4,7 +4,7 @@ module.exports = {
         address: 'address',
         education: 'education',
         student_profile: 'studentProfile',
-        teacherProfile:'teacherProfile',
+        teacher_Profile:'teacherProfile',
         passwordLog: 'passwordLog',
         loginLog: 'loginLog',
         studentAttendance: 'studentAttendance'

@@ -1,4 +1,4 @@
-const { addProfile, getProfile, getProfileDetails, updateProfileImage, studentSortByClassName } = require("./controller");
+const { addProfile, getProfile, getProfileDetails, updateProfileImage, studentSortByClassName,  } = require("./controller");
 const { body } = require("express-validator");
 
 

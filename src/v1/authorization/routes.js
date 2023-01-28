@@ -14,11 +14,11 @@ module.exports = (app) => {
         ], validateErrors,signUpTeacher
 
     )
-    app.post("/v1/student/sign",
+    app.post("/v1/student/signup",
     [
         body("email", "email is required").not().isEmpty().isEmail().withMessage("Please enter the correct email format, e.g. @gmail.com, @yahoo.com."),
         body("password", "password is required").not().isEmpty(),
-        body("className", "class is not be null").not().isEmpty()
+        body("class_Name", "class is not be null").not().isEmpty()
     ], validateErrors, signUpStudent)
     /* login new admin */
     app.post("/v1/login",

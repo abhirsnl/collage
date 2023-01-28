@@ -1,8 +1,6 @@
-const mongoose = require("mongoose");
-const constant = require("../../../../config/constant");
-
-
-let student_profileSchema = new mongoose.Schema({
+const mongoose = require('mongoose');
+const constant = require('../../../../config/constant')
+let teacher_ProfileSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         unique: true,
@@ -26,15 +24,8 @@ let student_profileSchema = new mongoose.Schema({
     },
     fullName: {
         type: String,
-        default:function(){
-            return `${this.firstName} ${this.lastName}`;
-        }
-
-    },
-    
-    class_Name: {
-        type: String,
         default: null
+
     },
 
     dateOfBirth: {
@@ -48,12 +39,7 @@ let student_profileSchema = new mongoose.Schema({
         default: null,
         unique: true,
     },
-    roll_No: {
-        type: Number,
-        unique: true,
-        trim: true,
-        default: null
-    },
+
     section: {
         type: String,
         required: true
@@ -95,7 +81,5 @@ let student_profileSchema = new mongoose.Schema({
     },
 }, { timestamps: true })
 
-
-
-let Student_Profile = mongoose.model(constant.collections.student_profile, student_profileSchema);
-module.exports = { Student_Profile }
+let Teacher_Profile = mongoose.model(constant.collections.teacher_Profile, teacher_ProfileSchema)
+module.exports = { Teacher_Profile };

@@ -1,13 +1,10 @@
-
 const { Student_Profile } = require("./model");
-
 const { ObjectId } = require('mongodb');
 const fs = require('fs');
-
 const { User } = require('../../authorization/model');
 const serviceResponse = require("../../helper/serviceResponse");
 const { folder } = require("../../../../config/constant");
-const { message } = require("statuses");
+
 
 
 const addProfile = async (req, res) => {
@@ -158,26 +155,41 @@ const updateProfileImage = async (req, res) => {
 const studentSortByClassName = async (req, res) => {
     try {
 
-        const { class_Name, userId } = req.body;
-    
+        const { class_Name, firstName } = req.body;
 
-        const studentExist = await Student_Profile.find({class_Name:class_Name})
-       if(!studentExist) {
-        return res.status(200).send(new serviceResponse({ status:400, errors:[{message:'Class Name is not exist.Please enmter valid class name'}]}))
 
+        const studentExist = await Student_Profile.find({ class_Name: class_Name }) /*.select('firstName lastName')*/
+
+        if (!studentExist) {
+            return res.status(200).send(new serviceResponse({ status: 400, errors: [{ message: 'Class Name is not exist.Please enmter valid class name' }] }))
         }
-else{
-    return res.status(200).send(new serviceResponse({ status:400,data:studentExist, message:'Student data fetched by class Name'}))
+//           const user = await Student_Profile.updateMany(
+//     {},
+//     { $concat: [ { $fullName: [ "$firstName", "" ] }, { $fullName: [ "lastName", "" ] } ] },
+//     { multi: true }
+// )
+        // let user = await Student_Profile.aggregate([
+        //     {
+        //         $match: { class_Name: class_Name }
+        //     },
+          
 
-}
+        //     {
+        //         $project: { fullName: { $concat: ["$firstName", " ", "$lastName"] },gender:'$gender' }
+        //    },
+            
+        // ])
+       
+        return res.status(200).send(new serviceResponse({ status: 400, data: {studentExist}, message: 'Student data fetched by class Name' }))
 
 
 
     } catch (error) {
-return res.status(200).send(new serviceResponse({status:500, errors:[{message:`${message.error}`}]}))
+        return res.status(200).send(new serviceResponse({ status: 500, errors: [{ message: `${error.message}` }] }))
     }
 }
 
+
 module.exports = {
-    addProfile, getProfile, getProfileDetails, updateProfileImage, studentSortByClassName
+    addProfile, getProfile, getProfileDetails, updateProfileImage, studentSortByClassName,
 }
