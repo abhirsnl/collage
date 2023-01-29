@@ -22,27 +22,16 @@ let teacher_ProfileSchema = new mongoose.Schema({
         default: null,
         trim: true
     },
-    fullName: {
-        type: String,
-        default: null
-
-    },
-
     dateOfBirth: {
         type: String,
         default: null,
         unique: true,
     },
-    mobile_No: {
-        type: String,
+    mobileNo: {
+        type: Number,
         trim: true,
         default: null,
         unique: true,
-    },
-
-    section: {
-        type: String,
-        required: true
     },
     gender: {
         type: String,
