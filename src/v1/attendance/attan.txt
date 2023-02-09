@@ -1,4 +1,3 @@
-
 const addStudents = async (req, res) => {
     try {
         const { userId } = req.params
@@ -8,33 +7,50 @@ const addStudents = async (req, res) => {
             return res.send({ message: "Teacher not found" })
         }
 
-        const students = await Student_Profile.find({ class_Name: class_Name })
-        if (!students) {
-            return res.status(404).send(new serviceResponse({ status: 404, errors: [{ message: "Class name not found" }] }))
-        }
-        else {
-            students.forEach(async student => {
+        const students = await Student_Profile.find({ class_Name:class_Name })
+        if (!students || !students.length) {
+            return res.status(200).send(new serviceResponse({ status: 404, errors: [{ message: "Class name not found" }] }))
+        }  
+
+        const promises = students.map(async student => {
+            const existingAttendance = await StudentAttendance.findOne({
+                userId: student.userId,
+                className: class_Name,
+                date: new Date()
+            });
+            if (!existingAttendance) {
                 const newAttendance = new StudentAttendance({
-                    student: student.userId,
+                    userId: student.userId,
+                    createdBy: userId,
                     name: `${student.firstName} ${student.lastName}`,
                     className: class_Name,
                     attendance: attendance,
-                    date: Date.now()
+                    date: new Date()
                 });
-    
-                await newAttendance.save()
-                
-            });
-    
-            return res.status(200).send(new serviceResponse({ status: 200,data:students, message: "Attendance added successfully" }))
-    
+                return newAttendance;
+            }
+        });
+        const addedStudent = await Promise.all(promises);
+        const filteredStudent = addedStudent.filter(s => s);
+        if (filteredStudent.length) {
+            await StudentAttendance.insertMany(filteredStudent);
+            return res
+                .status(200)
+                .send(
+                    new serviceResponse({
+                        status: 200,
+                        message: "Attendance added successfully"
+                    })
+                );
         }
-
+        return res
+            .status(200)
+            .send(
+                new serviceResponse({
+                    status: 200,
+                    data: addedStudent,
+                    message: "All students already have attendance marked for today"
+                })
+            );
     } catch (error) {
-        return res.status(500).send(new serviceResponse({ status: 500, errors: [{ message: `${error.message}` }] }))
-    }
-}
-
-module.exports = {
-    addStudents,
-}
+        return res.status(500).send(new serviceResponse({ status: 500, errors: [{

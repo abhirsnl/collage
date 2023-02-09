@@ -1,7 +1,7 @@
 const {signUpTeacher, userAdd, userGet, loginAdmin, forgotPassword, verifyOtp, resetPassword, signUpStudent, } = require("./controller");
 const { body } = require("express-validator");
 const { validateErrors } = require("../utils/utils");
-const { verifyToken, verifyUser } = require("../middleware/jwtToken");
+const { verifyToken,  verifyStudent } = require("../middleware/jwtToken");
 
 
 module.exports = (app) => {
@@ -29,7 +29,7 @@ module.exports = (app) => {
    
     app.post("/v1/forgotpassword", forgotPassword)
     app.post("/v1/admin/user", userAdd)
-    app.get("/v1/admin/get-user", verifyToken, verifyUser, userGet)
+    app.get("/v1/admin/get-user", verifyToken, verifyStudent, userGet)
     /* Generating token and sending it mail */
     app.post("/v1/forgot-password", forgotPassword);
 

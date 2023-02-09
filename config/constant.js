@@ -7,7 +7,8 @@ module.exports = {
         teacher_Profile:'teacherProfile',
         passwordLog: 'passwordLog',
         loginLog: 'loginLog',
-        studentAttendance: 'studentAttendance'
+        studentAttendance: 'studentAttendance',
+        subjects:'subject'
 
     },
 

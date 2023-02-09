@@ -34,7 +34,7 @@ const verifyTeacher = async (req, res, next) => {
     const user = await User.findOne({ _id:req.userId, roleId:constant.roleId.teacher })
     console.log(">>>>>>>",user)
     if (!user) {
-        return res.status(400).send(new ServiceResponse({ status: 400, errors: [{ message: 'Unauthorized teacher' }] }));
+        return res.status(400).send(new ServiceResponse({ status: 400, errors: [{ message: 'Unauthorized user' }] }));
     }
     else if (user.status === constant._status.inactive) {
         return res.status(400).send(new ServiceResponse({ status: 400, errors: [{ message: 'Your account has been inactive' }] }));
@@ -44,7 +44,7 @@ const verifyTeacher = async (req, res, next) => {
         next()
     }
 };
-const verifyUser = async (req, res, next) => {
+const verifyStudent = async (req, res, next) => {
    
     const user = await User.findOne({ _id:req.userId, roleId:constant.roleId.student })
     console.log(">>>>>>>",user)
@@ -64,6 +64,6 @@ const verifyUser = async (req, res, next) => {
 module.exports = {
     verifyToken,
     verifyTeacher,
-    verifyUser,
+    verifyStudent,
     
 }

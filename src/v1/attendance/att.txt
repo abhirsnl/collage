@@ -1,0 +1,51 @@
+const addStudents = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const { class_Name, attendance } = req.body
+        const teacher = await Teacher_Profile.findOne({ userId: userId })
+        if (!teacher) {
+            return res.send({ message: "Teacher not found" })
+        }
+
+        const students = await Student_Profile.find({ class_Name: class_Name })
+        if (!students || !students.length) {
+            return res.status(200).send(new serviceResponse({ status: 404, errors: [{ message: "Class name not found" }] }))
+        }  
+
+        const date = new Date();
+        const hour = date.getHours();
+        if (hour < 9 || hour >= 17) {
+            return res.status(200).send(new serviceResponse({ status: 400, errors: [{ message: "Can't add attendance outside working hours (9am to 5pm)" }] }))
+        }
+
+        let updatedStudent = [];
+
+        for (const student of students) {
+            const existingAttendance = await StudentAttendance.findOne({
+                userId: student.userId,
+            });
+            
+            if (existingAttendance) {
+                existingAttendance.attendance = attendance;
+                existingAttendance.date = date;
+                updatedStudent.push(existingAttendance.save());
+            } else {
+                const newAttendance = new StudentAttendance({
+                    userId: student.userId,
+                    createdBy: userId,
+                    name: `${student.firstName} ${student.lastName}`,
+                    className: class_Name,
+                    attendance: attendance,
+                    date: date
+                });
+                updatedStudent.push(newAttendance.save());
+            }
+        }
+
+        await Promise.all(updatedStudent);
+        return res.status(200).send(new serviceResponse({ status: 200, message: "Attendance added/updated successfully" }))
+
+    } catch (error) {
+        return res.status(500).send(new serviceResponse({ status: 500, errors: [{ message: `${error.message}` }] }))
+    }
+}

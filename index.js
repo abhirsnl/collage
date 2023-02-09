@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const { port } = require("./config/config");
+const { port, mailer } = require("./config/config");
 const morgan = require("morgan");
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -9,7 +9,7 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const fileUpload = require ('express-fileupload')
 const path = require('path')
-const { sendMail } = require("./src/v1/helper/nodemailer")
+const { sendMail } = require("./src/v1/helper/nodemailer");
 require('./config/database');
 
 app.use(helmet());
@@ -47,8 +47,11 @@ app.get('/v1/teacher/:user/:fileName', (req, res) => {
     res.sendFile(file);
 })
 require('./src/v1/routes/routes')(app);
-
+// require('./src/v1/helper/cron')
+ 
 app.listen(port, async() => {
-//   await sendMail("react.nodejs16@gmail.com",null,"API Testing","something happened")
+//  await sendMail("react.nodejs16@gmail.com",null,"API Testing","something happened")
+
+
     console.log("Server is running on PORT:", port);
 })

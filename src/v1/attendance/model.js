@@ -11,9 +11,9 @@ let studentAttendanceSchema = new mongoose.Schema({
 
 
 
-           student: {
+           userId: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
+            required:false,
             default: null,
             ref: "Student_Profile"
         },
@@ -21,7 +21,7 @@ let studentAttendanceSchema = new mongoose.Schema({
             type: String,
             default: null
         },
-        className: {
+        class_Name: {
             type: String,
             default: null,
             trim: true
@@ -37,7 +37,7 @@ let studentAttendanceSchema = new mongoose.Schema({
         },
         date: {
             type: Date,
-            default: Date.now()
+            default: null
         },
         deleteAt: {
             type: Date,
