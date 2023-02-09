@@ -103,7 +103,7 @@ const updateProfileImage = async (req, res) => {
         console.log(">>>>>>>>", req.userId)
         if (files) {
 
-            userIdDirPath = `./${folder.userProfilePic}/${userId}`;
+            userIdDirPath = `./${folder.userProfilePicStudent}/${userId}`;
             if (!fs.existsSync(userIdDirPath)) {
                 fs.mkdirSync(userIdDirPath, { recursive: true });
             }

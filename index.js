@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const fileUpload = require ('express-fileupload')
+const path = require('path')
 const { sendMail } = require("./src/v1/helper/nodemailer")
 require('./config/database');
 
@@ -33,13 +34,18 @@ app.use(function (req, res, next) {
     next();
 })
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, './src/v1/views')));
+ app.use(express.static(path.join(__dirname, './src/v1/public/images')));
+
 
 app.get('/', (req, res) => {
     res.send(`<div align="center" style=""><h1> WELCOME IN Sample API. <h1><div>`)
 })
-
-//api routes permission
+app.get('/v1/teacher/:user/:fileName', (req, res) => {
+    const file = path.join(__dirname, `./src/v1/public/image/teacher/${req.params.user}/${req.params.fileName}`)
+    console.log(file)
+    res.sendFile(file);
+})
 require('./src/v1/routes/routes')(app);
 
 app.listen(port, async() => {

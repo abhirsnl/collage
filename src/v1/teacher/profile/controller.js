@@ -37,7 +37,7 @@ const uploadProfileImage = async (req, res) => {
     //   console.log("<<<<<<<<<<<<<<<<", req);
       const { userId } = req.body;
       if (files) {
-        userIdDirPath = `./${folder.userProfilePic}/${userId}`;
+        userIdDirPath = `./${folder.userProfilePicTeacher}/${userId}`;
         if (!fs.existsSync(userIdDirPath)) {
           fs.mkdirSync(userIdDirPath, { recursive: true });
         }

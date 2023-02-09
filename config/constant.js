@@ -31,7 +31,8 @@ module.exports = {
 
 
     folder: {
-        userProfilePic: "uploadimage"
+        userProfilePicStudent: "./src/v1/public/image/student",
+        userProfilePicTeacher: "./src/v1/public/image/teacher",
     },
 
 

@@ -60,27 +60,6 @@ const verifyUser = async (req, res, next) => {
     }
 };
 
-// const verifySocketToken = function (socket, next) {
-//     var authorization = socket.handshake.query.token
-
-//     if (authorization) {
-//         var tokenBearer = authorization.split(' ');
-//         var token = tokenBearer[1];
-
-//         jwt.verify(token, security.secretKey, function (err, decoded) {
-//             if (err) {
-//                 return new ServiceResponse({ status: 403, message: "Unuthorized access", errors: [{ message: 'Invalid token' }] });
-//             }
-//             else {
-//                 socket.data = { email: decoded.email, role: decoded.role, userId: decoded.userId };
-//                 next();
-//             }
-//         });
-//     }
-//     else {
-//         return new ServiceResponse({ status: 403, message: "Unuthorized access", errors: [{ message: 'Token missing, Please login again' }] });
-//     }
-// };
 
 module.exports = {
     verifyToken,

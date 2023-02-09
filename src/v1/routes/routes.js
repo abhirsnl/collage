@@ -5,6 +5,6 @@ module.exports = function (app) {
     require('../education/routes')(app)
     require('../address/routes')(app)
     require('../teacher/profile/routes')(app)
-    // require('../attendance/routes')(app)
+   require('../attendance/routes')(app)
     
 }

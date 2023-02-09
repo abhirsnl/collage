@@ -40,10 +40,7 @@ const signUpStudent = async (req, res) => {
 }
 const loginAdmin = async (req, res) => {
     try {
-        const errors = validationResult(req).formatWith(errorFormatter);
-        if (!errors.isEmpty()) {
-            return res.status(200).send(new serviceResponse({ status: 500, errors: errors.array() }))
-        }
+       
         const { email, password } = req.body;
         const admin = await User.findOne({ email: email.toLowerCase(), deleteAt: null, status: { $in: ["1", "0"]  }})
         if (!admin) {
